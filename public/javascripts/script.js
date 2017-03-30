@@ -13,6 +13,7 @@ function addNewPlaceFormListener() {
 
   $("#new_place").keypress(function(event){
     var placename = $(this).val();
+      console.log("I am the place name "+ placename);
     if (event.which == 13 && placename ) {   //if user presses Enter and $(this).val has a value
       addNewPlace(placename);
     }
@@ -43,8 +44,12 @@ function addPlacesToPage(places) {
 
 }
 
-
-function addPlace(place, parent) {
+//check this
+function addPlace(place, parent)
+{
+    console.log("I am final place "+JSON.stringify(place));
+    console.log("Id" + place._id);
+    console.log("Name"+ place.name);
 
   var html = '<div id="' + place._id + '"><span class="placename">' + place.name + '</span><label class="visited_label" for="' + place._id + '_is_visited">Visited?</label>';
 
@@ -90,7 +95,7 @@ function getAllPlaces(){
   }).done(function(data){
     //Build HTML for each place in list
     addPlacesToPage(data);
-    console.log(data[data.length-1].name);
+    //console.log(data[data.length-1].name);
     addNewPlaceFormListener();  //Once page is loaded, enable form
 
   }).fail(function(error){
@@ -107,13 +112,16 @@ function addNewPlace(placename){
     method:"POST",
     url:"/add",
     data: { "name" : placename }
-  }).done(function(data){
+  }).done(function(data)
+  {
+    console.log("I am the data" + placename);
 
     console.log('POST complete');
 
     $('#new_place').val('');        // Clear input text box
 
     var parent = $('#place_list');
+      console.log("check here" + JSON.stringify(data));
     addPlace(data, parent);
 
     // Update listeners

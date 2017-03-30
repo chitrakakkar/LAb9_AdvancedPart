@@ -58,14 +58,9 @@ router.post('/add', function(req, res, next)
 // this is not working either
 router.post('/delete/:id', function(req, res, next)
 {
-  var place_id = req.params._id;
+  var place_id = req.body._id;
     console.log("I am place id" + place_id);
-    // for(var i=0;i<req.body.collection.length;i++)
-    // {
-    //     var place = req.body.collection[i];
-    //     console.log("I am place" + place);
-    //     if (place._id == place_id) {
-            req.db.collection('places').deleteOne({'_id': place_id}, function (err, docs) {
+    req.db.collection('places').deleteOne({'_id': place_id}, function (err, docs) {
                 if (err)
                 {
                     console.log("I am the docs" + docs);
@@ -75,22 +70,14 @@ router.post('/delete/:id', function(req, res, next)
                 return res.redirect("/all");
             });
 
-    //
-    //     }
-    // }
 });
 
 /* PUT - update whether a place has been visited or not */
 router.put('/update', function(req, res){
 
-  var filter = {'_id': req.params._id};
+  var filter = {'_id': req.body._id};
   var update ={$set:{'visited': 'true'}};  // all the body parameters are strings
-
-  // for (var i = 0 ; i < req.db.collection.length ; i++) {
-  //   var place = req.body.collection[i];
-  //   if (place._id == req.body._id)
-  //   {
-        req.db.collection('places').findOneAndUpdate(filter, update,function (err)
+  req.db.collection('places').findOneAndUpdate(filter, update,function (err)
         {
             if (err) {
                 return next(err);
