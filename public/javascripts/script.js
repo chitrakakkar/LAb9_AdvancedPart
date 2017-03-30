@@ -44,12 +44,14 @@ function addPlacesToPage(places) {
 
 }
 
-//check this
+
 function addPlace(place, parent)
 {
+
+    //place=JSON.stringify(place);
     console.log("I am final place "+JSON.stringify(place));
     console.log("Id" + place._id);
-    console.log("Name"+ place.name);
+    //console.log("Name"+ obj.name);
 
   var html = '<div id="' + place._id + '"><span class="placename">' + place.name + '</span><label class="visited_label" for="' + place._id + '_is_visited">Visited?</label>';
 
@@ -121,7 +123,6 @@ function addNewPlace(placename){
     $('#new_place').val('');        // Clear input text box
 
     var parent = $('#place_list');
-      console.log("check here" + JSON.stringify(data));
     addPlace(data, parent);
 
     // Update listeners
@@ -160,11 +161,11 @@ function deletePlace(id) {
   $.ajax({
     method: "DELETE",
     url: "/delete",
-    data: { "_id": id }
+    data: { "id": id }
   }).done(function (data) {
     console.log('DELETE complete');
     // Select div containing this item, and remove from page
-    var selector_id = '#' + data._id + "";
+    var selector_id = '#' + data.id + "";
     $(selector_id).fadeOut(function(){
       $(this).remove();
     });

@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var ObjectID = require('mongodb').ObjectID;
 
 /* GET home page. */
 router.get('/', function(req, res, next)
@@ -39,12 +40,14 @@ router.post('/add', function(req, res, next)
         if(doc.length == 0)
         {
 
-            req.db.collection('places').insertOne({'name':req.body.name,'visited':false }, function (err)
+            req.db.collection('places').insertOne({'name':req.body.name,'visited':false }, function (err,docs)
             {
-                if (err) {
+
+                if (err)
+                {
                     return next(err);
                 }
-                return res.redirect('/all'); // directs to home-page
+                return res.json(docs.ops[0]); // directs to home-page
             });
         }
         else {
@@ -56,18 +59,18 @@ router.post('/add', function(req, res, next)
 
 });
 // this is not working either
-router.post('/delete/:id', function(req, res, next)
+router.delete('/delete', function(req, res, next)
 {
-  var place_id = req.body._id;
+  var place_id = req.body.id;
     console.log("I am place id" + place_id);
-    req.db.collection('places').deleteOne({'_id': place_id}, function (err, docs) {
+    req.db.collection('places').deleteOne({"_id": ObjectID(place_id)}, function (err, docs) {
                 if (err)
                 {
                     console.log("I am the docs" + docs);
                     return next(err);
                 }
                 //return res.render('delete_places.hbs', {'places': req.body.name}); // directs to delete-page
-                return res.redirect("/all");
+                return res.json({"id":place_id})
             });
 
 });
