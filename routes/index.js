@@ -7,7 +7,6 @@ var router = express.Router();
 
 
 
-
 /* GET home page. */
 router.get('/', function(req, res, next)
 {
@@ -36,24 +35,22 @@ router.get('/all', function(req, res)
 /* POST - add a new location */
 router.post('/add', function(req, res, next)
 {
-   var counter= req.db.collection('places').find().count();
-    console.log("I am counter " + counter);
+   //var counter= req.db.collection('places').find().count();
     req.db.collection('places').find({'name':req.body.name}).toArray( function (err, doc)
     {
         console.log(req.body.name);
-        console.log(doc.length);
+        console.log("Here" + doc);
         // gives the number of duplicate entry
         //checks if the list for the flower name is 0;then add it else give an error message
         if(doc.length == 0)
         {
 
-            req.db.collection('places').insertOne({'id':++counter,'name':req.body.name,'visited':false }, function (err)
+            req.db.collection('places').insertOne({'name':req.body.name,'visited':false }, function (err)
             {
-                console.log("Counter Increased " + counter);
                 if (err) {
                     return next(err);
                 }
-                return res.redirect('/'); // directs to home-page
+                return res.redirect('/all'); // directs to home-page
             });
         }
         else {
@@ -66,42 +63,49 @@ router.post('/add', function(req, res, next)
 });
 router.post('/delete', function(req, res, next)
 {
-  console.log("I am body" + req.body);
-  var place_id = req.body.id;
-  console.log("I am the id"+place_id);
-  req.db.collection('places').deleteOne({'id':place_id},function (err, docs)
-    {
-        if (err)
-        {
-            return next(err);
-        }
-        return res.render('delete_places.hbs',{'places': req.body.name} ); // directs to delete-page
-    });
+  var place_id = req.body._id;
+    console.log("I am place id" + place_id);
+    // for(var i=0;i<req.body.collection.length;i++)
+    // {
+    //     var place = req.body.collection[i];
+    //     console.log("I am place" + place);
+    //     if (place._id == place_id) {
+            req.db.collection('places').deleteOne({"_id": place_id}, function (err, docs) {
+                if (err)
+                {
+                    console.log("I am the docs" + docs);
+                    return next(err);
+                }
+                return res.render('delete_places.hbs', {'places': req.body.name}); // directs to delete-page
+                //return res.redirect("/all");
+            });
 
-
+    //
+    //     }
+    // }
 });
 
-// /* PUT - update whether a place has been visited or not */
-// router.put('/update', function(req, res){
-//
-//   var id = req.body.id;
-//   var visited = req.body.visited == "true";  // all the body parameters are strings
-//
-//   for (var i = 0 ; i < places.length ; i++) {
-//     var place = places[i];
-//     if (place.id == id) {
-//       place.visited = visited;
-//       places[i] = place;
-//     }
-//   }
-//
-//   console.log('After PUT, the places list is');
-//   console.log(places);
-//
-//   res.json(place);
-//
-// });
-//
-//
+/* PUT - update whether a place has been visited or not */
+router.put('/update', function(req, res){
+
+  var filter = {'id': req.body._id};
+  var update ={$set:{'visited': 'true'}};  // all the body parameters are strings
+
+  for (var i = 0 ; i < req.db.collection.length ; i++) {
+    var place = req.body.collection[i];
+    if (place._id == req.body._id)
+    {
+        req.db.collection('places').findOneAndUpdate(filter, update,function (err)
+        {
+            if (err) {
+                return next(err);
+            }
+        });
+    return res.redirect('/all');
+    }
+  }
+});
+
+
 
 module.exports = router;
