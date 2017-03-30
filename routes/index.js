@@ -58,7 +58,7 @@ router.post('/add', function(req, res, next)
     });
 
 });
-// this is not working either
+// this is working
 router.delete('/delete', function(req, res, next)
 {
   var place_id = req.body.id;
