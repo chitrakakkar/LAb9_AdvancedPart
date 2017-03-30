@@ -1,12 +1,6 @@
 var express = require('express');
 var router = express.Router();
 
-
-// "Database". Names of places, and whether the user has visited it or not.
-
-
-
-
 /* GET home page. */
 router.get('/', function(req, res, next)
 {
@@ -31,7 +25,7 @@ router.get('/all', function(req, res)
     });
 });
 //
-//
+/// need to look into this
 /* POST - add a new location */
 router.post('/add', function(req, res, next)
 {
@@ -61,23 +55,24 @@ router.post('/add', function(req, res, next)
     });
 
 });
-router.post('/delete', function(req, res, next)
+// this is not working either
+router.post('/delete/:id', function(req, res, next)
 {
-  var place_id = req.body._id;
+  var place_id = req.params._id;
     console.log("I am place id" + place_id);
     // for(var i=0;i<req.body.collection.length;i++)
     // {
     //     var place = req.body.collection[i];
     //     console.log("I am place" + place);
     //     if (place._id == place_id) {
-            req.db.collection('places').deleteOne({"_id": place_id}, function (err, docs) {
+            req.db.collection('places').deleteOne({'_id': place_id}, function (err, docs) {
                 if (err)
                 {
                     console.log("I am the docs" + docs);
                     return next(err);
                 }
-                return res.render('delete_places.hbs', {'places': req.body.name}); // directs to delete-page
-                //return res.redirect("/all");
+                //return res.render('delete_places.hbs', {'places': req.body.name}); // directs to delete-page
+                return res.redirect("/all");
             });
 
     //
@@ -88,13 +83,13 @@ router.post('/delete', function(req, res, next)
 /* PUT - update whether a place has been visited or not */
 router.put('/update', function(req, res){
 
-  var filter = {'id': req.body._id};
+  var filter = {'_id': req.params._id};
   var update ={$set:{'visited': 'true'}};  // all the body parameters are strings
 
-  for (var i = 0 ; i < req.db.collection.length ; i++) {
-    var place = req.body.collection[i];
-    if (place._id == req.body._id)
-    {
+  // for (var i = 0 ; i < req.db.collection.length ; i++) {
+  //   var place = req.body.collection[i];
+  //   if (place._id == req.body._id)
+  //   {
         req.db.collection('places').findOneAndUpdate(filter, update,function (err)
         {
             if (err) {
@@ -102,8 +97,8 @@ router.put('/update', function(req, res){
             }
         });
     return res.redirect('/all');
-    }
-  }
+  //   }
+  // }
 });
 
 

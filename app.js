@@ -42,7 +42,7 @@ MongoClient.connect(url, function (err, db)
 
     });
 
-    app.use('/', index);
+app.use('/', index);
 
 // catch 404 and forward to error handler
     app.use(function (req, res, next) {

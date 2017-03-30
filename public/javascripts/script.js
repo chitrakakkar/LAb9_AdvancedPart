@@ -100,7 +100,7 @@ function getAllPlaces(){
 
 }
 
-
+//adds new places
 function addNewPlace(placename){
 
   $.ajax({
@@ -137,7 +137,7 @@ function updateVisited(id, visited) {
   $.ajax({
     method:"PUT",
     url:"/update",
-    data:{ "id":id, "visited":visited }
+    data:{ "_id":id, "visited":visited }
   }).done(function(){
     console.log('PUT complete');  // Could update the page here, if needed
   }).fail(function(error){
@@ -152,7 +152,7 @@ function deletePlace(id) {
   $.ajax({
     method: "DELETE",
     url: "/delete",
-    data: { '_id': id }
+    data: { "_id": id }
   }).done(function (data) {
     console.log('DELETE complete');
     // Select div containing this item, and remove from page
