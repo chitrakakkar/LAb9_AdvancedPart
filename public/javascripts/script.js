@@ -89,7 +89,7 @@ function checkListener() {
 
 
 // These functions make AJAX calls
-
+// get all -/all router in index.js
 function getAllPlaces(){
 
   $.ajax({
@@ -108,7 +108,7 @@ function getAllPlaces(){
 
 }
 
-//adds new places
+//adds new places-gets info from index.js-/add router
 function addNewPlace(placename){
 
   $.ajax({
@@ -141,7 +141,7 @@ function addNewPlace(placename){
 
 }
 
-
+//gets info from /update in index.js
 function updateVisited(id, visited) {
 
   $.ajax({
@@ -156,7 +156,7 @@ function updateVisited(id, visited) {
   });
 }
 
-
+// gets id from /delete route in index.js
 function deletePlace(id) {
 
   $.ajax({
