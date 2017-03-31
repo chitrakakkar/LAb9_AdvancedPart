@@ -78,15 +78,15 @@ router.delete('/delete', function(req, res, next)
 /* PUT - update whether a place has been visited or not */
 router.put('/update', function(req, res){
 
-  var filter = {'_id': req.body._id};
-  var update ={$set:{'visited': 'true'}};  // all the body parameters are strings
-  req.db.collection('places').findOneAndUpdate(filter, update,function (err)
+  var filter = {'_id': ObjectID(req.body.id)};
+  var update ={$set:{'visited': true}};  // all the body parameters are strings
+  req.db.collection('places').findOneAndUpdate(filter, update,function (err,docs)
         {
             if (err) {
                 return next(err);
             }
         });
-    return res.redirect('/all');
+    return res.json({"id":req.body.id});
   //   }
   // }
 });

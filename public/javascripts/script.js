@@ -146,7 +146,7 @@ function updateVisited(id, visited) {
   $.ajax({
     method:"PUT",
     url:"/update",
-    data:{ "_id":id, "visited":visited }
+    data:{ "id":id, "visited":visited }
   }).done(function(){
     console.log('PUT complete');  // Could update the page here, if needed
   }).fail(function(error){
