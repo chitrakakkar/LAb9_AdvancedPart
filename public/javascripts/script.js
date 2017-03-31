@@ -4,12 +4,13 @@ $(function(){
   // Add a listener for input text; listen for Enter key.
   // Send POST request to create new place
 
-  getAllPlaces();
+  getAllPlaces(); // calls /all url in index.js and displays all the data;line 92 on this page;
 
 });
 
-
-function addNewPlaceFormListener() {
+//when you hit enter which #13, it calls addnewplace(line 112) with input text value
+function addNewPlaceFormListener()
+{
 
   $("#new_place").keypress(function(event){
     var placename = $(this).val();
@@ -21,7 +22,7 @@ function addNewPlaceFormListener() {
 
 }
 
-// Create elements
+// Create elements for the html page
 
 function addPlacesToPage(places) {
   //if (!places || places.length == 0){
@@ -44,7 +45,7 @@ function addPlacesToPage(places) {
 
 }
 
-
+//dynamically creating html element for the travel-list
 function addPlace(place, parent)
 {
 
@@ -77,7 +78,7 @@ function deleteListener() {
   deletePlace(id);                          // Make AJAX request to delete the place with this ID
 }
 
-
+//
 function checkListener() {
   //todo feedback on updated?
   var visited = $(this).is(':checked');   // Is the checkbox checked or unchecked?

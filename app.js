@@ -34,7 +34,7 @@ MongoClient.connect(url, function (err, db)
 
 // This function will run before each route handler…
 
-
+// getting a database connection object
     app.use('/', function (req, res, next)
     {
         req.db = db;
